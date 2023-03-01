@@ -16,8 +16,8 @@ class NotificationService {
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
     // Configure the iOS notification settings.
-    const IOSInitializationSettings initializationSettingsIOS =
-        IOSInitializationSettings();
+    const DarwinInitializationSettings initializationSettingsIOS =
+        DarwinInitializationSettings();
 
     // Configure the initialization settings for the plugin.
     final InitializationSettings initializationSettings =
@@ -44,23 +44,15 @@ class NotificationService {
 
   static Future<void> scheduleNotification(
       DateTime scheduledDate, String title, String body) async {
-    final androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'channel id',
-      'channel name',
-      'channel description',
-      importance: Importance.max,
-      priority: Priority.high,
-      playSound: true,
-      // Add the following line to set the flag for the PendingIntent.
-      // pendingIntent: PendingIntent.getActivity(
-      //   context,
-      //   0,
-      //   intent,
-      //   PendingIntentFlag.immutable // Use the immutable flag for targeting Android S+ (version 31 and above).
-      // ),
-    );
+    const androidPlatformChannelSpecifics =
+        AndroidNotificationDetails('channel id', 'channel name',
+            // 'channel description',
+            importance: Importance.max,
+            priority: Priority.high,
+            playSound: true,
+            channelDescription: 'channel description');
 
-    final iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    final iOSPlatformChannelSpecifics = DarwinNotificationDetails();
 
     final platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
