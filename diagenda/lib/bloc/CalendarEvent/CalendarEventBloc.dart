@@ -105,7 +105,8 @@ class CalendarEventBloc extends Bloc<CalendarEventEvent, CalendarEventState> {
           await NotificationService.scheduleNotification(
               event.event.startTime as DateTime,
               'Reminder 15 minutes before:',
-              event.event.title);
+              event.event.title,
+              event.event.date);
         }
       } catch (e) {
         print(e);
@@ -128,7 +129,7 @@ class CalendarEventBloc extends Bloc<CalendarEventEvent, CalendarEventState> {
 
       if (event.event.event.notification) {
         await NotificationService.scheduleNotification(
-            event.event.date, 'Title', 'Body');
+            event.event.date, 'Title', 'Body', event.event.date);
       }
       emit(CalendarEventLoaded(events: eventsRepository.fetchEvents()));
       // print(

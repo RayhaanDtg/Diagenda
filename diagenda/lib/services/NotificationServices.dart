@@ -42,13 +42,13 @@ class NotificationService {
     tz.initializeTimeZones();
   }
 
-  static Future<void> scheduleNotification(
-      DateTime scheduledDate, String title, String body) async {
+  static Future<void> scheduleNotification(DateTime scheduledTime, String title,
+      String body, DateTime scheduledDate) async {
     const androidPlatformChannelSpecifics =
         AndroidNotificationDetails('channel id', 'channel name',
             // 'channel description',
             importance: Importance.max,
-            priority: Priority.high,
+            priority: Priority.max,
             playSound: true,
             channelDescription: 'channel description');
 
@@ -60,9 +60,20 @@ class NotificationService {
 
     // final DateTime notifDate =
     //     scheduledDate.subtract(const Duration(minutes: 15));
+    print('here is the date!!!!!!------!!!!!!');
+    print(scheduledDate);
+    DateTime combinedDateTime = DateTime(
+      scheduledDate.year,
+      scheduledDate.month,
+      scheduledDate.day,
+      scheduledTime.hour,
+      scheduledTime.minute,
+      scheduledTime.second,
+    );
     final scheduledNotificationDate =
-        tz.TZDateTime.from(scheduledDate, tz.local);
+        tz.TZDateTime.from(combinedDateTime, tz.local);
 
+    print(scheduledNotificationDate);
     await _flutterLocalNotificationsPlugin.zonedSchedule(
         0, title, body, scheduledNotificationDate, platformChannelSpecifics,
         androidAllowWhileIdle: true,
